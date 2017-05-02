@@ -1081,6 +1081,501 @@ console.log(average(vet.filter(mulher).map(idade)));
         </ul>
       </div>
     </section>
+    <section class="slide cover" onload="checkCookies();">
+      <div>
+        <h2>JavaScript &amp; DOM</h2>
+        <p>João Eduardo Montandon</p>
+        <p>Desenvolvimento de Aplicativos Web - COLTEC/MG</p>
+      </div>
+    </section>
+    <section class="slide">
+      <div>
+        <h2>DOM: Document Object Model</h2>
+        <ul>
+          <li>Padrão para representar os objetos de um documento XML</li>
+          <li>Documento é representado por meio de uma árvore</li>
+          <li>Cada nó da árvore representa um elemento do documento</li>
+          <li>Permite visualizar toda estrutura do documento (organização,
+            hierarquização, etc.)</li>
+        </ul>
+      </div>
+    </section>
+    <section class="slide">
+      <div class="container_12">
+        <h2>DOM: Documento Object Model</h2>
+        <div class="grid_4">
+          <pre>
+            <code style="font-size:0.4em;">
+&lt;!doctype html&gt;
+&lt;html&gt;
+  &lt;head&gt;
+    &lt;title&gt;My home page&lt;/title&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;h1&gt;My home page&lt;/h1&gt;
+    &lt;p&gt;Hello, I am Marijn and this is my home page.&lt;/p&gt;
+    &lt;p&gt;
+      I also wrote a book! Read it
+      &lt;a href="http://eloquentjavascript.net"&gt;here&lt;/a&gt;
+    .&lt;/p&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+            </code>
+          </pre>
+        </div>
+        <div class="grid_4">
+            <img src="images/html-boxes.png" alt="" />
+        </div>
+        <div class="grid_4">
+          <img src="images/html-tree.png" alt="" />
+        </div>
+      </div>
+    </section>
+    <section class="slide">
+      <div>
+        <h2>JavaScript &amp; DOM</h2>
+        <ul>
+          <li>JavaScript fornece meios para que alteremos o DOM</li>
+          <li>Dessa forma é possível implementar uma página com comportamento
+          dinâmico e fluído.</li>
+          <li>DOM pode ser acessado por meio da variável <code>document</code></li>
+        </ul>
+        <pre>
+          <code style="font-size:0.8em;">
+var link = document.body.getElementsByTagName("a")[0];
+console.log(link.href);
+          </code>
+        </pre>
+      </div>
+    </section>
+    <section class="slide">
+      <div class="container_12">
+        <h2>JS &amp; DOM: Navegando pela Estrutura</h2>
+        <div class="grid_7">
+          <ul>
+            <li>Todo nó existente no DOM possui uma série de atributos que
+              ajudam na navegação da árvore</li>
+            <li>Por meio desses atributos, podemos acessar os nós que são, filhos, pai,
+              e vizinhos de um determinado nó</li>
+          </ul>
+        </div>
+        <div class="grid_5">
+          <img src="images/html-links.png" alt="" />
+        </div>
+      </div>
+    </section>
+    <section class="slide" id="slideDomNav">
+      <div class="container_12">
+        <h2>JS &amp; DOM: Navegando pela Estrutura</h2>
+        <div class="grid_9">
+          <pre>
+            <code style="font-size: 0.6em;">
+function talksAbout(node, string) {
+  var count = 0;
+  for (var i = 0; i &lt; node.childNodes.length; i++) {
+    var childNode = node.childNodes[i];
+    if(childNode.childNodes.length &gt; 0)
+      count += talksAbout(childNode, string);
+    else if(childNode.nodeValue != null &amp;&amp;
+            childNode.nodeValue.indexOf(string) &gt; -1)
+      count ++;
+  }
+  return count;
+}
+            </code>
+          </pre>
+        </div>
+        <div class="grid_3">
+          <input type="text" id="txtDomNav"
+          style="max-width:100%; font-size: 1.0em;"/>
+          <button name="btn_nav" onclick="triggerTalksAbout();">
+            Executar
+          </button>
+          <p id="nav_answer">
+          </p>
+        </div>
+      </div>
+    </section>
+    <section class="slide">
+      <div>
+        <h2>JS &amp; DOM: Encontrando Elementos</h2>
+        <ul>
+          <li>Também é possível recuperar elementos diretamente, sem que seja
+          necessário percorrer toda a árvore do DOM:</li>
+          <ul>
+            <li><em>Me dê todos os nós que são links da página</em></li>
+            <li><em>Recupere o elemento que possui <code>id="footer"</code></em></li>
+            <li><em>Liste os elementos que possuem <code>class="lead"</code></em></li>
+          </ul>
+        </ul>
+      </div>
+    </section>
+    <section class="slide">
+      <div>
+        <h2>JS &amp; DOM: Encontrando Elementos</h2>
+          <pre>
+            <code>
+var links = document.body.getElementsByTagName("a");
+
+var header = document.getElementById("header");
+
+var slides = document.getElementsByClassName("slide");
+          </code>
+        </pre>
+      </div>
+    </section>
+    <section class="slide">
+      <div>
+        <h2>JS &amp; DOM: Alterando Elementos</h2>
+        <ul>
+          <li>Quase toda estrutura do DOM pode ser alterada dinamicamente</li>
+          <li>JavaScript provê algumas funções para tal:</li>
+          <ul>
+            <li><code>removeChild(child)</code></li>
+            <li><code>appendChild(child)</code></li>
+            <li><code>insertBefore(elem1, elem2)</code></li>
+          </ul>
+        </ul>
+      </div>
+    </section>
+    <section class="slide">
+      <div class="container_12">
+        <h2>JS &amp; DOM: Alterando Elementos</h2>
+        <div class="grid_8">
+          <pre>
+            <code style="font-size: 0.6em;">
+&lt;p&gt;One&lt;/p&gt;
+&lt;p&gt;Two&lt;/p&gt;
+&lt;p&gt;Three&lt;/p&gt;
+
+&lt;script&gt;
+var paragraphs = document.body.getElementsByTagName("p");
+document.body.insertBefore(paragraphs[2], paragraphs[0]);
+&lt;/script&gt;
+            </code>
+          </pre>
+        </div>
+        <div class="grid_3 prefix_1" id="p_example" style="font-size: 0.8em;">
+          <p>One</p>
+          <p>Two</p>
+          <p>Three</p>
+          <br>
+          <br>
+          <button name="btn_p_example" onclick="p_example();">Teste!!</button>
+        </div>
+      </div>
+    </section>
+    <section class="slide">
+      <div class="container_12">
+        <h2>JS &amp; DOM: Criando Novos Elementos</h2>
+        <div class="grid_5" style="font-size:0.8em;">
+          <ul style="margin-bottom: 18px;">
+            <li>Existem 5 tipos de nós no HTML DOM:</li>
+            <ol>
+              <li>Element</li>
+              <li>Attribute</li>
+              <li>Text</li>
+              <li>Comment</li>
+              <li>Document</li>
+          </ol>
+          </ul>
+        </div>
+        <div class="grid_7">
+          <img src="images/dom_htmltree.png" alt="" />
+        </div>
+        <div class="grid_12" style="font-size:0.8em;">
+          <ul>
+            <li>Para se criar um elemento HTML novo, deve-se criar o respectivo
+              nó para este elemento (Element), junto de suas propriedades
+              (Attribute, Text)</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+    <section class="slide">
+      <div class="container_12">
+        <h2>JS &amp; DOM: Criando Novos Elementos</h2>
+        <div class="grid_5">
+          <table style="font-size:0.8em;">
+            <thead>
+              <tr><td><strong>Funções</strong></td></tr>
+            </thead>
+            <tbody>
+              <tr><td><code>createElement(elem)</code></td></tr>
+              <tr><td><code>createAttribute(attr)</code></td></tr>
+              <tr><td><code>createTextNode(text)</code></td></tr>
+              <tr><td><code>createComment(comm)</code></td></tr>
+              <tr><td><code>createDocumentFragment()</code></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="grid_7">
+          <pre>
+            <code style="font-size: 0.6em;">
+var p = document.createElement("p");
+var node = document.createTextNode("This is new.");
+var attr = document.createAttribute("style");
+attr.value = "background-color:red;";
+p.setAttributeNode(attr);
+p.appendChild(node);
+var element = document.getElementById("div1");
+element.appendChild(p);
+            </code>
+          </pre>
+        </div>
+      </div>
+    </section>
+    <section class="slide">
+      <div>
+        <h2>JS &amp; DOM: Query Selectors</h2>
+        <ul>
+          <li>Também é possível selecionar elementos no DOM utilizando
+          o <em>selector syntax</em> (CSS)</li>
+          <li>Os elementos podem ser recuperados por meio de duas funções:</li>
+          <ol>
+            <li><code>querySelector(selector)</code>: Seleciona o primeiro
+              elemento que se encaixa na descrição de <code>selector</code></li>
+            <li><code>querySelectorAll(selector)</code>: Seleciona <b>todos</b> os
+            elementos que se encaixam na descrição de <code>selector</code></li>
+          </ol>
+        </ul>
+      </div>
+    </section>
+    <section class="slide">
+      <div>
+        <h2>JS &amp; DOM: Query Selectors</h2>
+          <pre>
+            <code style="font-size: 0.9em;">
+function count(selector) {
+  return document.querySelectorAll(selector).length;
+}
+console.log(count("p"));
+console.log(count(".slide"));
+console.log(count("div ul"));
+console.log(count("div &gt; ul"));
+            </code>
+          </pre>
+      </div>
+    </section>
+    <section class="slide section">
+      <div>
+        <h2>JS &amp; DOM pt.2: Eventos</h2>
+      </div>
+    </section>
+    <section class="slide">
+      <div>
+        <h2>JS &amp; DOM pt.2: Eventos</h2>
+        <ul>
+          <li>HTML DOM fornece meios para executar trechos de código JavaScript
+            em determinadas condições</li>
+          <li>Dessa forma, podemos implementar funções JavaScript que respondam
+            a determinadas ações do usuário</li>
+        </ul>
+      </div>
+    </section>
+    <section class="slide">
+      <div class="container_12">
+        <h2>JS &amp; DOM pt.2: Eventos</h2>
+        <div class="grid_8">
+          <pre>
+            <code style="font-size: 0.5em;">
+&lt;div id="example_box" onclick="toggleColor();"&gt;
+Click me!!
+&lt;/div&gt;
+&lt;script charset="utf-8"&gt;
+var color = "red";
+function toggleColor() {
+  var newColor = color == "red" ? "blue" : "red";
+  color = newColor;
+  document.getElementById("example_box").style.backgroundColor = newColor;
+}
+&lt;/script&gt;
+            </code>
+          </pre>
+        </div>
+        <div class="grid_4">
+          <div id="example_box" style="width:150px; height:150px; background-color: red;" onclick="toggleColor();">
+            <p>
+              Click me!!
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="slide">
+      <div>
+        <h2>JS &amp; DOM pt.2: Eventos</h2>
+        <p style="margin-bottom: 28px;">
+          Os eventos podem ser customizados de duas formas: (a) atributos HTML;
+          (b) HTML DOM;
+        </p>
+        <pre>
+          <code style="font-size:0.75em;">
+&lt;button onclick="displayDate()"&gt;Try it&lt;/button&gt;
+&lt;script&gt;
+document.getElementById("myBtn").onclick = function(){ displayDate() };
+&lt;/script&gt;
+          </code>
+        </pre>
+      </div>
+    </section>
+    <section class="slide">
+      <div>
+        <h2>Eventos: onclick</h2>
+        <p>
+          Habilitado quando o usuário clica sobre o elemento
+        </p>
+        <div class="container_12">
+          <div class="grid_8" style="font-size: 0.6em;">
+            <pre>
+              <code>
+&lt;button name="btn_onclick_example"
+  onclick="onclickExample();"&gt;Click me!!&lt;/button&gt;
+
+&lt;script&gt;
+function onclickExample() {
+  alert("BOOOOOMMMM!!!");
+}
+&lt;/script&gt;
+              </code>
+            </pre>
+          </div>
+          <div class="grid_4">
+            <button name="btn_onclick_example" onclick="onclickExample();">Click me!!</button>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="slide">
+      <div>
+        <h2>Eventos: onload &amp; onunload</h2>
+        <p style="margin-bottom: 18px;">
+          Disparado no momento em que o usuário entra e sai da página, respectivamente.
+        </p>
+        <div class="container_12">
+          <div class="grid_8" style="font-size: 0.4em;">
+            <pre>
+              <code>
+&lt;body onload="checkCookies()"&gt;
+&lt;p id="demo"&gt;&lt;/p&gt;
+&lt;script&gt;
+function checkCookies() {
+  var text = "";
+  if (navigator.cookieEnabled == true) {
+    text = "Cookies are enabled.";
+  } else {
+    text = "Cookies are not enabled.";
+  }
+  document.getElementById("demo").innerHTML = text;
+}
+&lt;/script&gt;
+&lt;/body&gt;
+              </code>
+            </pre>
+          </div>
+          <div class="grid_4">
+            <p id="demo">
+              Carregando...
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="slide">
+      <div>
+        <h2>Eventos: onchange</h2>
+        <p>
+          Executado quando o valor de um elemento é modificado. Ideal para validação
+          de campos.
+        </p>
+        <div class="container_12">
+          <div class="grid_8" style="font-size: 0.59em;">
+            <pre>
+              <code>
+Digite seu nome:&lt;br&gt;
+&lt;input type="text" id="fname" onchange="upperCase()"&gt;
+&lt;script&gt;
+function upperCase() {
+  var x = document.getElementById("fname");
+  x.value = x.value.toUpperCase();
+}
+&lt;/script&gt;
+              </code>
+            </pre>
+          </div>
+          <div class="grid_4">
+            Digite seu nome:<br>
+            <input type="text" id="fname" onchange="upperCase()" style="font-size:1.0em;"/>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="slide">
+      <div>
+        <h2>Eventos: onmouseover &amp; onmouseout</h2>
+        <p style="margin-bottom: 18px;">
+          Disparado quando o mouse passa sobre o objeto.
+        </p>
+        <div class="container_12">
+          <div class="grid_8" style="font-size: 0.59em;">
+            <pre>
+              <code>
+&lt;img src="images/chaves.jpg" alt=""
+    onmouseover="mOver(this)" onmouseout="mOut(this)" /&gt;
+&lt;script&gt;
+function mOver(obj) {
+  obj.property.src = "images/pao_presunto.jpg";
+}
+function mOut(obj) {
+  obj.property.src = "images/chaves.jpg";
+}
+&lt;/script&gt;
+              </code>
+            </pre>
+          </div>
+          <div class="grid_4">
+            <div id="mouseover_example" style="width:300px; height:300px;">
+              <img src="images/chaves.jpg" alt="" style="max-width:100%;"
+              onmouseover="mOver(this)" onmouseout="mOut(this)" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="slide">
+      <div>
+        <h2>Eventos: onmousedown &amp; onmouseup</h2>
+        <p style="margin-bottom: 18px;">
+          Disparado quando o usuário pressiona/solta o mouse em um determinado
+          elemento.
+        </p>
+        <div class="container_12">
+          <div class="grid_8" style="font-size: 0.45em;">
+            <pre>
+              <code>
+&lt;div onmousedown="mDown(this)" onmouseup="mUp(this)"&gt;Click Me&lt;/div&gt;
+&lt;script&gt;
+function mDown(obj) {
+  obj.style.backgroundColor = "#1ec5e5";
+  obj.innerHTML = "Solte Me";
+}
+function mUp(obj) {
+  obj.style.backgroundColor="#D94A38";
+  obj.innerHTML="AEWW!!";
+}
+&lt;/script&gt;
+              </code>
+            </pre>
+          </div>
+          <div class="grid_4">
+            <div onmousedown="mDown(this)" onmouseup="mUp(this)"
+            style="background-color:#D94A38;width:190px;height:60px;padding:20px;">
+              Click Me
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
     <section class="slide">
       <div>
         <h2>Referências</h2>
@@ -1153,6 +1648,88 @@ console.log(average(vet.filter(mulher).map(idade)));
         for(i = 0; i < nomes.length; i++) {
           console.log(nomes[i] + " " + idade[i] + " " + id[i]);
         }
+      }
+    </script>
+    <script>
+    function talksAbout(node, string) {
+      var count = 0;
+        for (var i = 0; i < node.childNodes.length; i++) {
+          var childNode = node.childNodes[i];
+          if(childNode.childNodes.length > 0) {
+            count += talksAbout(childNode, string);
+          }
+          else if(childNode.nodeValue != null && childNode.nodeValue.indexOf(string) > -1) {
+            count ++;
+          }
+        }
+        return count;
+      }
+
+
+      function triggerTalksAbout() {
+        var string = document.getElementById("txtDomNav").value;
+        var count = talksAbout(document.body, string);
+        document.getElementById("nav_answer").innerHTML = "O termo " + string +
+        " aparece " + count + " vezes.";
+      }
+
+
+      function p_example() {
+        var paragraphs = document.getElementById("p_example").getElementsByTagName("p");
+        document.getElementById("p_example").insertBefore(paragraphs[2], paragraphs[0]);
+      }
+
+
+      var color = "red";
+      function toggleColor() {
+        var newColor = color == "red" ? "blue" : "red";
+        color = newColor;
+
+        document.getElementById("example_box").style.backgroundColor = newColor;
+      }
+
+
+      function onclickExample() {
+        alert("BOOOOOMMMM!!!");
+      }
+
+
+      function checkCookies() {
+        var text = "";
+        if (navigator.cookieEnabled == true) {
+          text = "Cookies are enabled.";
+        } else {
+          text = "Cookies are not enabled.";
+        }
+        document.getElementById("demo").innerHTML = text;
+      }
+
+
+      function upperCase() {
+        var x = document.getElementById("fname");
+        x.value = x.value.toUpperCase();
+      }
+
+
+      function mOver(obj) {
+        obj.src = "images/pao_presunto.jpg";
+      }
+
+
+      function mOut(obj) {
+        obj.src = "images/chaves.jpg";
+      }
+
+
+      function mDown(obj) {
+        obj.style.backgroundColor = "#1ec5e5";
+        obj.innerHTML = "Solte Me";
+      }
+
+
+      function mUp(obj) {
+        obj.style.backgroundColor="#D94A38";
+        obj.innerHTML="AEWW!!";
       }
     </script>
   </body>
